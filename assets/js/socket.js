@@ -61,25 +61,26 @@ let message = $('#message');
 let name = $('#name');
 
 message.on('keypress', event =>  {
-  if (event.keycode == 13) {
-    channel.push('new message', {name: name.val()}, {message: message.val()});
+  if (event.keyCode == 13) {
+    channel.push('new_message', {name: name.val(), message: message.val()});
     message.val('');
   }
 });
 
-channel.on('new message', payload => {
-  list.append(`<b>${payload.name || 'Someone secret'}: </b> ${payload.message}`);
+channel.on('new_message', payload => {
+  list.append(`<b>${payload.name || 'Someone secret'}:</b> ${payload.message}<br>`);
   list.prop({scrollTop: list.prop('scrollHeight')});
 });
 
+//Joins the channel and lets up know in the console whether the connection was good or not
 channel
   .join()
   .receive('ok', resp => {
-    console.log('Join successful.');
-  });
+    console.log('Join successful.', resp);
+  })
 
   .receive('error', resp => {
-    console.log('Unable to join. Try again.');
+    console.log('Unable to join. Try again.', resp);
   });
 
 export default socket

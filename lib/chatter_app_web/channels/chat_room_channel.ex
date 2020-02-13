@@ -11,6 +11,14 @@ defmodule ChatterAppWeb.ChatRoomChannel do
 
   # Channels can be used in a request/response fashion
   # by sending replies to requests from the client
+  def handle_in("new_message", payload, socket) do
+    spawn(fn -> save_message(payload) end)
+    broadcast! socket, "new_message", payload
+    {:no_reply, socket}
+  end
+
+
+
   def handle_in("ping", payload, socket) do
     {:reply, {:ok, payload}, socket}
   end
@@ -25,5 +33,10 @@ defmodule ChatterAppWeb.ChatRoomChannel do
   # Add authorization logic here as required.
   defp authorized?(_payload) do
     true
+  end
+
+  defp save_message(message) do
+    ChatterAppWeb.Message.changeset(%ChatterApp.Message{}, message)
+    |> ChatterAppWeb.Repo.insert
   end
 end

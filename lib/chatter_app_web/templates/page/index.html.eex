@@ -1,17 +1,15 @@
-<div id="message-list" class="row">
+<div class="">
+  <h2>Welcome to ChatterApp</h2>
+  <p>It's really simple. Just get to talking! Remember that this is a test app and things are bound to change.</p>
+</div>
+<div id="message-list" class="">
 
 </div>
 
 <div class="row form-group">
-  <div class="col-md-3">
-    <h5>Name:</h5>
-    <input type="text" id="name" class="form-control" placeholder="name">
-  </div>
-
-  <div class="col-md-9">
-    <h5>Message:</h5>
+  <div class="col">
+    <h5>Meet and chat!</h5>
+    <input type="text" id="name" class="form-control" placeholder="name" style="width: 200px;">
     <input type="text" id="message" class="form-control" placeholder="message">
-
   </div>
-
 </div>

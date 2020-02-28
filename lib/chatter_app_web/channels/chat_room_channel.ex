@@ -11,14 +11,6 @@ defmodule ChatterAppWeb.ChatRoomChannel do
 
   # Channels can be used in a request/response fashion
   # by sending replies to requests from the client
-  def handle_in("new_message", payload, socket) do
-    spawn(fn -> save_message(payload) end)
-    broadcast! socket, "new_message", payload
-    {:no_reply, socket}
-  end
-
-
-
   def handle_in("ping", payload, socket) do
     {:reply, {:ok, payload}, socket}
   end
@@ -30,23 +22,32 @@ defmodule ChatterAppWeb.ChatRoomChannel do
     {:noreply, socket}
   end
 
-  def join('chat_room:lobby', payload, socket do
+  def handle_in("new_message", payload, socket) do
+    spawn(fn -> save_message(payload) end)
+    broadcast! socket, "new_message", payload
+    {:no_reply, socket}
+  end
+
+  def join('chat_room:lobby', payload, socket) do
     if authorized?(payload) do
       send(self(), :after_join)
       {:ok, socket}
-
     else
-      {:error, %{'reason: unauthorized!'}}
+      {:error, %{reason: 'unauthorized!'}}
     end
 
   end
 
+
+
   def handle_info(:after_join, socket) do
+    ChatterApp.Message.recent_messages()
+    |> Enum.each(fn msg -> push(socket, 'new_message', %{
+      name: msg.name,
+      message: msg.message
+      }) end)
     {:no_reply, socket}
   end
-
-
-
 
 
   # Add authorization logic here as required.
@@ -55,7 +56,7 @@ defmodule ChatterAppWeb.ChatRoomChannel do
   end
 
   defp save_message(message) do
-    ChatterAppWeb.Message.changeset(%ChatterApp.Message{}, message)
-    |> ChatterAppWeb.Repo.insert
+    ChatterApp.Message.changeset(%ChatterApp.Message{}, message)
+    |> ChatterApp.Repo.insert
   end
 end

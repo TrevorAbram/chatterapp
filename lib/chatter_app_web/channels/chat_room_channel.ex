@@ -1,5 +1,5 @@
 defmodule ChatterAppWeb.ChatRoomChannel do
-  use ChatterAppWeb, :channel
+  use ChatterAppWeb, :channelgit
 
   # Channels can be used in a request/response fashion
   # by sending replies to requests from the client

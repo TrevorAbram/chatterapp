@@ -8,7 +8,7 @@ defmodule ChatterApp.Accounts.User do
 
     #Virtual
     field :password, :string, virtual: true
-    field :password_confirmation, :string, virtual: true 
+    field :password_confirmation, :string, virtual: true
 
 
     timestamps()
@@ -19,6 +19,8 @@ defmodule ChatterApp.Accounts.User do
     user
     |> cast(attrs, [:username, :encrypted_password])
     |> validate_required([:username, :encrypted_password])
+    |> validate_length(:password, min: 5)
     |> unique_constraint(:username)
+  
   end
 end

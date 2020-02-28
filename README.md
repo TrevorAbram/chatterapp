@@ -1,5 +1,13 @@
 # ChatterApp
+Chatter App is a really simple app that allows users to chat at the same time using a [name] and [message].
 
+### Todo
+[] Authenication and authorization for users
+[] Clean up interface UI
+[]
+
+
+## Basic Startup
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`

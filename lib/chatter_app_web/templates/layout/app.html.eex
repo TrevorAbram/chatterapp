@@ -17,7 +17,8 @@
             <li><a href="https://hexdocs.pm/phoenix/overview.html">Get Started</a></li>
           </ul>
         </nav>
-        <h3>Chatter Web App</h3>
+        <a href="<%= Routes.page_path(@conn, :index)%>"><h3>Home</h3></a>
+        <% Routes.user_path
       </section>
     </header>
     <main role="main" class="container">
